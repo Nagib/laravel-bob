@@ -27,7 +27,7 @@ class Generators_Model extends Generator
 	{
 		parent::__construct($args);
 
-		// we need a controller name
+		// we need a model name
 		if ($this->class == null)
 			Common::error('You must specify a model name.');
 
