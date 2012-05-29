@@ -40,6 +40,10 @@ class Bob_Build_Task extends Task
 			case "m":
 				new Generators_Model($args);
 				break;
+			case "schema":
+			case "s":
+				new Generators_Schema($args);
+				break;
 			case "alias":
 				new Generators_Alias($args);
 				break;
@@ -94,6 +98,7 @@ class Bob_Build_Task extends Task
 		Common::log('{w}Commands :');
 		Common::log("\t{c}(c)      controller");
 		Common::log("\t{c}(m)      model");
+		Common::log("\t{c}(s)      schema");
 		Common::log("\t{c}(v)      view");		
 		Common::log("\t{c}(t)      test");
 		Common::log("\t{c}(ta)     task");
