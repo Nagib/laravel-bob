@@ -31,7 +31,7 @@ class Generators_Schema extends Generator
 		$this->_settings();
 
 		// start the generation
-		$this->_model_generation();
+		$this->_schema_generation();
 
 		// write filesystem changes
 		$this->writer->write();
