@@ -1,0 +1,1 @@
+public static $rules = array(#RULE#);
