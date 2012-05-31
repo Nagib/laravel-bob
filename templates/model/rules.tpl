@@ -1,1 +1,6 @@
-public static $rules = array(#RULE#);
+	/**
+	 * Validation rules
+	 */
+	public static $rules = array(
+	#RULE#);
+
