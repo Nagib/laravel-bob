@@ -65,6 +65,9 @@ class Generators_Model extends Generator
 		// holder for relationships source
 		$relationships_source = '';
 
+		// holder for rule source
+		$rule_source = '';
+
 		// loop through our relationships
 		foreach ($this->arguments as $relation)
 		{
@@ -85,8 +88,17 @@ class Generators_Model extends Generator
 				'#WORDS#'			=> Str::classify(Str::plural($relation_parts[1]))
 			);
 
+			// markers for rules
+			$rule_markers = array(
+				'#FIELD#'		=> Str::lower($relation_parts[0]),
+				'#OPTIONS#'		=> Str::lower(implode(':', array_slice($relation_parts, 1))),
+			);
+
 			// start with blank
 			$relationship_template = '';
+
+			// start with blank
+			$rule_template = '';
 
 			// use switch to decide which template
 			switch ($relation_parts[0])
@@ -107,15 +119,42 @@ class Generators_Model extends Generator
 				case "hbm":
 					$relationship_template = Common::load_template('model/has_and_belongs_to_many.tpl');
 					break;
+				default:
+					$rule_template = Common::load_template('model/rule.tpl');
+					break;
+
 			}
 
 			// add it to the source
 			$relationships_source .= Common::replace_markers($rel_markers, $relationship_template);
+
+			// add it to the source
+			$rule_source .= Common::replace_markers($rule_markers, $rule_template);
 		}
 
 		// add a marker to replace the relationships stub
 		// in the model template
 		$markers['#RELATIONS#'] = $relationships_source;
+
+		// if we have rules
+		if (! empty($rule_source))
+		{
+			// add rules template
+			$rules_template = Common::load_template('model/rules.tpl');
+
+			// add a marker to replace the relationships stub
+			// in the model template
+			$rules_markers = array(
+				'#RULE#' => $rule_source,
+			);
+
+			// add rule to rules
+			$rules_source = Common::replace_markers($rules_markers, $rules_template);
+
+			// add a marker to replace the relationships stub
+			// in the model template
+			$markers['#RULES#'] = $rules_source;
+		}
 
 		// add the generated model to the writer
 		$this->writer->create_file(
